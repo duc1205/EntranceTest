@@ -7,23 +7,23 @@ import 'package:main_app/storage/local_storage.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  String initRoute = Routes.singnUp;
+  String initialRoute = Routes.singnUp;
   final accessToken = await SPref.instance.getAccessToken();
   if (accessToken != null) {
     final hasExpried = JwtDecoder.isExpired(accessToken);
     if (!hasExpried) {
-      initRoute = Routes.categories;
+      initialRoute = Routes.categories;
     }
   }
 
   runApp(MyApp(
-    initRouter: initRoute,
+    initialRoute: initialRoute,
   ));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key, required this.initRouter});
-  final String initRouter;
+  const MyApp({super.key, required this.initialRoute});
+  final String initialRoute;
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.green,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      initialRoute: Routes.singnUp,
+      initialRoute: initialRoute,
       getPages: AppPages.pages,
     );
   }

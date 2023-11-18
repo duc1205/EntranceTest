@@ -8,9 +8,6 @@ class CategoryControler extends GetxController {
   final _listCategory = RxList<CategoryModel>(const []);
   List<CategoryModel> get listCategory => _listCategory.toList();
 
-  final _isSelected = RxBool(false);
-  bool get isSelected => _isSelected.value;
-
   final _listSelected = RxList<CategoryModel>(const []);
   List<CategoryModel> get listSelected => _listSelected.toList();
 
@@ -20,6 +17,7 @@ class CategoryControler extends GetxController {
   void onInit() {
     super.onInit();
     getCategory();
+    getCategoryLocal();
   }
 
   void getCategory() async {
@@ -41,5 +39,10 @@ class CategoryControler extends GetxController {
 
   void selectedCategory({required CategoryModel categoryModel}) async {
     _listSelected.contains(categoryModel) ? _listSelected.remove(categoryModel) : _listSelected.add(categoryModel);
+    await SPref.instance.saveCategory(listSelected);
+  }
+
+  void getCategoryLocal() async {
+    _listSelected.value = await SPref.instance.getCategory();
   }
 }

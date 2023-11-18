@@ -18,9 +18,6 @@ class SignupControler extends GetxController {
   final _isShowPassword = false.obs;
   bool get isShowPassWord => _isShowPassword.value;
 
-  final _isEnableButton = false.obs;
-  bool get isEnableButton => _isEnableButton.value;
-
   final _isCheckboxEnable = false.obs;
   bool get isCheckboxEnable => _isCheckboxEnable.value;
 
@@ -40,6 +37,11 @@ class SignupControler extends GetxController {
   void onChangePass(String value) {
     if (value.length < 6) {
       _statePassword.value = PasswordStrength.tooShort;
+      return;
+    }
+
+    if (value.length > 18) {
+      _statePassword.value = PasswordStrength.tooLong;
       return;
     }
 
@@ -79,11 +81,12 @@ class SignupControler extends GetxController {
   }
 
   bool checkEnableButton() {
-    if (emailController.text.isEmail) {
-      _isEnableButton.value = true;
+    if (emailController.text.isEmail &&
+        statePassword != PasswordStrength.tooShort &&
+        statePassword != PasswordStrength.none &&
+        statePassword != PasswordStrength.tooLong) {
       return true;
     } else {
-      _isEnableButton.value = false;
       return false;
     }
   }
@@ -114,7 +117,6 @@ class SignupControler extends GetxController {
 
       if (response.statusCode == 200) {
         isLoading.value = false;
-        Get.snackbar("Login Successfull", "");
         SPref.instance.setAccessToken(response.data["accessToken"].toString());
         SPref.instance.saveRefreshToken(response.data["refreshToken"].toString());
         Get.offAllNamed(Routes.categories);

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:main_app/category/app/ui/category_controller.dart';
+import 'package:main_app/category/app/controller/category_controller.dart';
 import 'package:main_app/gen/assets.gen.dart';
 import 'package:main_app/routers/app_pages.dart';
 import 'package:main_app/themes/ui_color.dart';
@@ -12,7 +12,7 @@ class CategoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CategoryControler controler = Get.put(CategoryControler());
+    CategoryControler categoryController = Get.find<CategoryControler>();
     return Scaffold(
       body: Stack(
         children: [
@@ -39,7 +39,7 @@ class CategoryScreen extends StatelessWidget {
                     ),
                     Obx(
                       () => Visibility(
-                        visible: controler.listSelected.isNotEmpty,
+                        visible: categoryController.listSelected.isNotEmpty,
                         child: GestureDetector(
                           onTap: () {
                             Get.offAllNamed(Routes.home);
@@ -67,8 +67,8 @@ class CategoryScreen extends StatelessWidget {
                 Expanded(
                   child: Obx(
                     () => ListItemCategory(
-                      categories: controler.listCategory,
-                      onSelect: (categoryModel) => controler.selectedCategory(categoryModel: categoryModel),
+                      categories: categoryController.listCategory,
+                      onSelect: (categoryModel) => categoryController.selectedCategory(categoryModel: categoryModel),
                     ),
                   ),
                 ),

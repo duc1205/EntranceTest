@@ -2,7 +2,7 @@ import 'package:easy_rich_text/easy_rich_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:main_app/gen/assets.gen.dart';
-import 'package:main_app/signup/app/signup_controller.dart';
+import 'package:main_app/signup/app/controller/signup_controller.dart';
 import 'package:main_app/themes/ui_color.dart';
 import 'package:main_app/themes/ui_text_style.dart';
 
@@ -18,7 +18,7 @@ class _SignupScreenState extends State<SignupScreen> {
   Widget build(BuildContext context) {
     FocusNode myFocusNode = FocusNode();
 
-    SignupControler controler = Get.put(SignupControler());
+    SignupControler signupController = Get.find<SignupControler>();
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -51,8 +51,8 @@ class _SignupScreenState extends State<SignupScreen> {
                     SizedBox(height: myFocusNode.hasFocus ? 75 : 40),
                     TextFormField(
                       autovalidateMode: AutovalidateMode.onUserInteraction,
-                      validator: (value) => controler.validateEmail(value),
-                      controller: controler.emailController,
+                      validator: (value) => signupController.validateEmail(value),
+                      controller: signupController.emailController,
                       style: UITextStyle.white16w400,
                       decoration: InputDecoration(
                         labelText: "Your email",
@@ -74,31 +74,20 @@ class _SignupScreenState extends State<SignupScreen> {
                     SizedBox(height: myFocusNode.hasFocus ? 54 : 26),
                     Obx(
                       () => TextFormField(
-                        onChanged: controler.onChangePass,
-                        controller: controler.passwordController,
+                        onChanged: signupController.onChangePass,
+                        controller: signupController.passwordController,
                         style: UITextStyle.white16w400,
-                        obscureText: controler.isShowPassWord,
+                        obscureText: signupController.isShowPassWord,
                         decoration: InputDecoration(
                             labelText: "Your password",
                             labelStyle: UITextStyle.white12w400,
-                            border: const UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.blue),
-                            ),
-                            disabledBorder: const UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.blue),
-                            ),
-                            enabledBorder: const UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.blue),
-                            ),
-                            focusedBorder: const UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.blue),
-                            ),
+                            border: InputBorder.none,
                             suffixIcon: IconButton(
                               icon: Icon(
-                                controler.isShowPassWord ? Icons.visibility_off : Icons.visibility,
+                                !signupController.isShowPassWord ? Icons.visibility_off : Icons.visibility,
                                 color: UIColor.white.withOpacity(0.5),
                               ),
-                              onPressed: controler.onClickShowPassword,
+                              onPressed: signupController.onClickShowPassword,
                             )),
                       ),
                     ),
@@ -111,8 +100,8 @@ class _SignupScreenState extends State<SignupScreen> {
                         ),
                         Obx(
                           () => Container(
-                            color: controler.statePassword.color,
-                            width: MediaQuery.of(context).size.width * controler.statePassword.percent,
+                            color: signupController.statePassword.color,
+                            width: MediaQuery.of(context).size.width * signupController.statePassword.percent,
                             height: 2,
                           ),
                         ),
@@ -122,8 +111,8 @@ class _SignupScreenState extends State<SignupScreen> {
                       () => Align(
                         alignment: Alignment.centerRight,
                         child: Text(
-                          controler.statePassword.text,
-                          style: UITextStyle.white12w400.copyWith(color: controler.statePassword.color),
+                          signupController.statePassword.text,
+                          style: UITextStyle.white12w400.copyWith(color: signupController.statePassword.color),
                         ),
                       ),
                     ),
@@ -135,11 +124,11 @@ class _SignupScreenState extends State<SignupScreen> {
                           height: 23,
                           child: Obx(
                             () => Checkbox(
-                              value: controler.isCheckboxEnable,
+                              value: signupController.isCheckboxEnable,
                               checkColor: UIColor.white,
                               focusColor: UIColor.blue,
-                              side: const BorderSide(color: UIColor.white, width: 2),
-                              onChanged: controler.onCheckbox,
+                              side: const BorderSide(color: UIColor.blue1, width: 2),
+                              onChanged: signupController.onCheckbox,
                             ),
                           ),
                         ),
@@ -178,9 +167,9 @@ class _SignupScreenState extends State<SignupScreen> {
                         Obx(
                           () => InkWell(
                             onTap: () {
-                              controler.checkEnableButton() ? controler.signupApi() : null;
+                              signupController.checkEnableButton() ? signupController.signupApi() : null;
                             },
-                            child: controler.isLoading.value
+                            child: signupController.isLoading.value
                                 ? const CircularProgressIndicator()
                                 : Container(
                                     width: 54,

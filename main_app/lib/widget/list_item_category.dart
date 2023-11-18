@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:main_app/category/app/ui/category_controller.dart';
+import 'package:main_app/category/app/controller/category_controller.dart';
 import 'package:main_app/category/domain/model/category_model.dart';
 import 'package:main_app/widget/item_category.dart';
 

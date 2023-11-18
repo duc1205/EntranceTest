@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 enum PasswordStrength {
   none(percent: 0, color: Color(0xFF6C6C6c), text: ''),
   tooShort(percent: 0, color: Color(0xFF6C6C6c), text: 'Too Short'),
+  tooLong(percent: 0, color: Color(0xFF6C6C6c), text: 'Too Long'),
   weak(percent: 0.25, color: Color(0xFFE05151), text: 'Weak'),
   fair(percent: 0.5, color: Color(0xFFE3A063), text: 'Fair'),
   good(percent: 0.75, color: Color(0xFF647FFF), text: 'Good'),
