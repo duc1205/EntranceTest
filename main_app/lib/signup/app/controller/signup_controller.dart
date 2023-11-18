@@ -24,6 +24,13 @@ class SignupControler extends GetxController {
   final _statePassword = Rx<PasswordStrength>(PasswordStrength.none);
   PasswordStrength get statePassword => _statePassword.value;
 
+  @override
+  void onClose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.onClose();
+  }
+
   void onClickShowPassword() {
     _isShowPassword.value = !isShowPassWord;
   }

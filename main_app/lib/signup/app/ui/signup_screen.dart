@@ -18,7 +18,7 @@ class _SignupScreenState extends State<SignupScreen> {
   Widget build(BuildContext context) {
     FocusNode myFocusNode = FocusNode();
 
-    SignupControler signupController = Get.find<SignupControler>();
+    final signupController = Get.find<SignupControler>();
 
     return Scaffold(
       body: SingleChildScrollView(

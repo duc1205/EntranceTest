@@ -12,7 +12,7 @@ class CategoryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CategoryControler categoryController = Get.find<CategoryControler>();
+    final categoryController = Get.find<CategoryControler>();
     return Scaffold(
       body: Stack(
         children: [
