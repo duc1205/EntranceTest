@@ -13,15 +13,13 @@ dependencies:
   google_fonts: ^6.1.0
   get: ^4.6.6
   easy_rich_text: ^2.0.0
-  http: ^1.1.0
-  email_validator: ^2.1.17
-  form_field_validator: ^1.1.0
   equatable: ^2.0.5
   oauth2: ^2.0.2
   json_serializable: ^6.7.1
   json_annotation: ^4.8.1
   shared_preferences: ^2.2.2
   dio: ^5.3.3
+  jwt_decoder: ^2.0.1
 
 dev_dependencies:
   flutter_test:

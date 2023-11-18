@@ -14,7 +14,7 @@ class LoadMoreWidget extends StatelessWidget {
         children: <Widget>[
           Text(
             "Please wait...",
-            style: UITextStyle.white_16_w400,
+            style: UITextStyle.white16w400,
           ),
           const SizedBox(
             width: 8,

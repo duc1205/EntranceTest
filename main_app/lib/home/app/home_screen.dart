@@ -11,7 +11,7 @@ class HomeScreen extends StatelessWidget {
       body: Center(
         child: Text(
           'Welcome .....',
-          style: UITextStyle.white_22_w400.copyWith(color: UIColor.blue),
+          style: UITextStyle.white22w400.copyWith(color: UIColor.blue),
         ),
       ),
     );

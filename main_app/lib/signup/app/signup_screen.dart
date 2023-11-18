@@ -17,7 +17,6 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     FocusNode myFocusNode = FocusNode();
-    bool passwordVisible = false;
 
     SignupControler controler = Get.put(SignupControler());
 
@@ -47,45 +46,41 @@ class _SignupScreenState extends State<SignupScreen> {
                     SizedBox(height: myFocusNode.hasFocus ? 255 : 190),
                     Text(
                       "Let's get you started!",
-                      style: UITextStyle.white_22_w400,
+                      style: UITextStyle.white22w400,
                     ),
                     SizedBox(height: myFocusNode.hasFocus ? 75 : 40),
-                    Form(
-                      autovalidateMode: AutovalidateMode.always,
-                      child: TextFormField(
-                        validator: (value) => controler.validateEmail(value),
-                        controller: controler.emailController.value,
-                        style: UITextStyle.white_16_w400,
-                        decoration: InputDecoration(
-                          labelText: "Your email",
-                          labelStyle: UITextStyle.white_12_w400,
-                          border: const UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.blue),
-                          ),
-                          disabledBorder: const UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.blue),
-                          ),
-                          enabledBorder: const UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.blue),
-                          ),
-                          focusedBorder: const UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.blue),
-                          ),
+                    TextFormField(
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      validator: (value) => controler.validateEmail(value),
+                      controller: controler.emailController,
+                      style: UITextStyle.white16w400,
+                      decoration: InputDecoration(
+                        labelText: "Your email",
+                        labelStyle: UITextStyle.white12w400,
+                        border: const UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.blue),
+                        ),
+                        disabledBorder: const UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.blue),
+                        ),
+                        enabledBorder: const UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.blue),
+                        ),
+                        focusedBorder: const UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.blue),
                         ),
                       ),
                     ),
                     SizedBox(height: myFocusNode.hasFocus ? 54 : 26),
-                    Form(
-                      autovalidateMode: AutovalidateMode.always,
-                      child: TextFormField(
-                        // validator: controler.passwordValidator,
-                        // onChanged: (value) => controler.passwordController.value.text = value,
-                        controller: controler.passwordController.value,
-                        style: UITextStyle.white_16_w400,
-                        obscureText: passwordVisible,
+                    Obx(
+                      () => TextFormField(
+                        onChanged: controler.onChangePass,
+                        controller: controler.passwordController,
+                        style: UITextStyle.white16w400,
+                        obscureText: controler.isShowPassWord,
                         decoration: InputDecoration(
                             labelText: "Your password",
-                            labelStyle: UITextStyle.white_12_w400,
+                            labelStyle: UITextStyle.white12w400,
                             border: const UnderlineInputBorder(
                               borderSide: BorderSide(color: Colors.blue),
                             ),
@@ -100,15 +95,36 @@ class _SignupScreenState extends State<SignupScreen> {
                             ),
                             suffixIcon: IconButton(
                               icon: Icon(
-                                passwordVisible ? Icons.visibility_off : Icons.visibility,
+                                controler.isShowPassWord ? Icons.visibility_off : Icons.visibility,
                                 color: UIColor.white.withOpacity(0.5),
                               ),
-                              onPressed: () {
-                                setState(() {
-                                  passwordVisible = !passwordVisible;
-                                });
-                              },
+                              onPressed: controler.onClickShowPassword,
                             )),
+                      ),
+                    ),
+                    Stack(
+                      children: <Widget>[
+                        Container(
+                          color: UIColor.incaditor,
+                          width: MediaQuery.of(context).size.width,
+                          height: 2,
+                        ),
+                        Obx(
+                          () => Container(
+                            color: controler.statePassword.color,
+                            width: MediaQuery.of(context).size.width * controler.statePassword.percent,
+                            height: 2,
+                          ),
+                        ),
+                      ],
+                    ),
+                    Obx(
+                      () => Align(
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          controler.statePassword.text,
+                          style: UITextStyle.white12w400.copyWith(color: controler.statePassword.color),
+                        ),
                       ),
                     ),
                     const SizedBox(height: 40),
@@ -117,34 +133,37 @@ class _SignupScreenState extends State<SignupScreen> {
                         SizedBox(
                           width: 23,
                           height: 23,
-                          child: Checkbox(
-                            value: true,
-                            checkColor: UIColor.white,
-                            focusColor: UIColor.blue,
-                            onChanged: ((value) {}),
+                          child: Obx(
+                            () => Checkbox(
+                              value: controler.isCheckboxEnable,
+                              checkColor: UIColor.white,
+                              focusColor: UIColor.blue,
+                              side: const BorderSide(color: UIColor.white, width: 2),
+                              onChanged: controler.onCheckbox,
+                            ),
                           ),
                         ),
                         const SizedBox(width: 8),
                         Text(
                           "I am over 16 years of age",
-                          style: UITextStyle.white_14_w400,
+                          style: UITextStyle.white14w400,
                         )
                       ],
                     ),
                     const SizedBox(height: 30),
                     EasyRichText(
                       "By clicking Sign Up, you are indicating that you have read and agree to the Terms of Service and Privacy Policy",
-                      defaultStyle: UITextStyle.white_12_w500,
+                      defaultStyle: UITextStyle.white12w500,
                       patternList: [
                         EasyRichTextPattern(
                           targetString: "Terms of Service",
-                          style: UITextStyle.blue_12_w500,
-                          // recognizer: TapGestureRecognizer()..onTap = viewModel.launchTermsAndConditionsUrl,
+                          style: UITextStyle.blue12w500,
+                          recognizer: null,
                         ),
                         EasyRichTextPattern(
                           targetString: "Privacy Policy",
-                          style: UITextStyle.blue_12_w500,
-                          // recognizer: TapGestureRecognizer()..onTap = viewModel.launchTermsAndConditionsUrl,
+                          style: UITextStyle.blue12w500,
+                          recognizer: null,
                         ),
                       ],
                     ),
@@ -152,17 +171,14 @@ class _SignupScreenState extends State<SignupScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        GestureDetector(
-                          onTap: () {},
-                          child: Text(
-                            "Sign Up",
-                            style: UITextStyle.white_16_w500,
-                          ),
+                        Text(
+                          "Sign Up",
+                          style: UITextStyle.white16w500,
                         ),
                         Obx(
                           () => InkWell(
                             onTap: () {
-                              controler.signinApi();
+                              controler.checkEnableButton() ? controler.signupApi() : null;
                             },
                             child: controler.isLoading.value
                                 ? const CircularProgressIndicator()

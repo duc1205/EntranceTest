@@ -39,7 +39,7 @@ class ItemCategory extends StatelessWidget {
         child: Center(
           child: Text(
             categoryModel.name,
-            style: UITextStyle.white_14_w400.copyWith(color: UIColor.white.withOpacity(0.82)),
+            style: UITextStyle.white14w400.copyWith(color: UIColor.white.withOpacity(0.82)),
             textAlign: TextAlign.center,
           ),
         ),

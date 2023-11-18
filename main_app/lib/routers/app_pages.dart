@@ -7,17 +7,17 @@ part 'app_routes.dart';
 class AppPages {
   static List<GetPage> pages = [
     GetPage(
-      name: Routes.SIGNUP,
+      name: Routes.singnUp,
       page: () => const SignupScreen(),
       transition: Transition.noTransition,
     ),
     GetPage(
-      name: Routes.CATEGORIES,
+      name: Routes.categories,
       page: () => const CategoryScreen(),
       transition: Transition.noTransition,
     ),
     GetPage(
-      name: Routes.HOME,
+      name: Routes.home,
       page: () => const HomeScreen(),
       transition: Transition.noTransition,
     ),

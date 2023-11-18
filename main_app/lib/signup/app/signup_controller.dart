@@ -1,37 +1,100 @@
-import 'dart:convert';
-
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:form_field_validator/form_field_validator.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
+import 'package:main_app/app_exception.dart';
+import 'package:main_app/app_service.dart';
+import 'package:main_app/enum/enum_password.dart';
 import 'package:main_app/routers/app_pages.dart';
 import 'package:main_app/storage/local_storage.dart';
 
 class SignupControler extends GetxController {
-  final emailController = TextEditingController().obs;
-  final passwordController = TextEditingController().obs;
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  final ApiService _apiService = ApiService();
 
   RxBool isLoading = false.obs;
 
-  String? validateEmail(String? value) {
-    const pattern = r"(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'"
-        r'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-'
-        r'\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*'
-        r'[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:(2(5[0-5]|[0-4]'
-        r'[0-9])|1[0-9][0-9]|[1-9]?[0-9]))\.){3}(?:(2(5[0-5]|[0-4][0-9])|1[0-9]'
-        r'[0-9]|[1-9]?[0-9])|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\'
-        r'x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])';
-    final regex = RegExp(pattern);
+  final _isShowPassword = false.obs;
+  bool get isShowPassWord => _isShowPassword.value;
 
-    return value!.isNotEmpty && !regex.hasMatch(value) ? 'Enter a valid email address' : null;
+  final _isEnableButton = false.obs;
+  bool get isEnableButton => _isEnableButton.value;
+
+  final _isCheckboxEnable = false.obs;
+  bool get isCheckboxEnable => _isCheckboxEnable.value;
+
+  final _statePassword = Rx<PasswordStrength>(PasswordStrength.none);
+  PasswordStrength get statePassword => _statePassword.value;
+
+  void onClickShowPassword() {
+    _isShowPassword.value = !isShowPassWord;
   }
 
-  final passwordValidator = MultiValidator([
-    RequiredValidator(errorText: 'password is required'),
-    MinLengthValidator(6, errorText: 'password must be at least 6 digits long'),
-    MaxLengthValidator(18, errorText: 'password must not exceed 18 digits'),
-    PatternValidator(r'(?=.*?[#?!@$%^&*-])', errorText: 'passwords must have at least one special character')
-  ]);
+  void onCheckbox(bool? value) {
+    if (value != null) {
+      _isCheckboxEnable.value = !isCheckboxEnable;
+    }
+  }
+
+  void onChangePass(String value) {
+    if (value.length < 6) {
+      _statePassword.value = PasswordStrength.tooShort;
+      return;
+    }
+
+    final regexUpCase = RegExp(r'[A-Z]');
+    final regexLowerCase = RegExp(r'[a-z]');
+    final regexNumberic = RegExp(r'[0-9]');
+    final regexCharactic = RegExp(r'[!@#$%^&*(),.?":{}|<>]');
+
+    bool hasMatch1 = regexUpCase.hasMatch(value) && regexLowerCase.hasMatch(value);
+    bool hasMatch2 = regexNumberic.hasMatch(value);
+    bool hasMatch3 = regexCharactic.hasMatch(value);
+
+    int countMatch = 0;
+    if (hasMatch1) {
+      countMatch += 1;
+    }
+    if (hasMatch2) {
+      countMatch += 1;
+    }
+    if (hasMatch3) {
+      countMatch += 1;
+    }
+    switch (countMatch) {
+      case 1:
+        _statePassword.value = PasswordStrength.fair;
+        return;
+      case 2:
+        _statePassword.value = PasswordStrength.good;
+        return;
+      case 3:
+        _statePassword.value = PasswordStrength.strong;
+        return;
+      default:
+        _statePassword.value = PasswordStrength.weak;
+        return;
+    }
+  }
+
+  bool checkEnableButton() {
+    if (emailController.text.isEmail) {
+      _isEnableButton.value = true;
+      return true;
+    } else {
+      _isEnableButton.value = false;
+      return false;
+    }
+  }
+
+  String? validateEmail(String? value) {
+    if (value == null) return null;
+    if (!value.isEmail) {
+      return 'Enter a valid email address';
+    }
+    return null;
+  }
 
   @override
   void onInit() {
@@ -41,60 +104,54 @@ class SignupControler extends GetxController {
 
   void signinApi() async {
     try {
-      final response = await http.post(
-        Uri.parse("http://streaming.nexlesoft.com:3001/auth/signin"),
-        body: {
-          "email": emailController.value.text.trim(),
-          "password": passwordController.value.text,
+      final response = await _apiService.post(
+        '/auth/signin',
+        data: {
+          "email": emailController.text.trim(),
+          "password": passwordController.text,
         },
       );
-      var data = jsonDecode(response.body);
-
-      print("~~~~~~~~~~~ aaa: ${data["accessToken"]}");
-      print("~~~~~~~~~~~ bbb: ${data["refreshToken"]}");
-
-      SPref.instance.setAccessToken(data["accessToken"].toString());
-      SPref.instance.saveRefreshToken(data["refreshToken"].toString());
 
       if (response.statusCode == 200) {
         isLoading.value = false;
         Get.snackbar("Login Successfull", "");
-        Get.offAllNamed(Routes.CATEGORIES);
+        SPref.instance.setAccessToken(response.data["accessToken"].toString());
+        SPref.instance.saveRefreshToken(response.data["refreshToken"].toString());
+        Get.offAllNamed(Routes.categories);
       } else {
         isLoading.value = false;
-        Get.snackbar("Login Failed", data["error"]);
+        Get.snackbar("Login Failed", response.data["error"]);
       }
-    } catch (e) {
+    } on DioException catch (e) {
       isLoading.value = false;
-      Get.snackbar("Exception", e.toString());
+      final ApiException apiException = ApiException.fromDioError(e);
+      Get.snackbar("Exception", apiException.toString());
     }
   }
 
   void signupApi() async {
     isLoading.value = true;
     try {
-      final response = await http.post(
-        Uri.parse("http://streaming.nexlesoft.com:3001/api/signup"),
-        body: {
-          "email": emailController.value.text.trim(),
-          "password": passwordController.value.text,
+      final response = await _apiService.post(
+        '/auth/signup',
+        data: {
+          "email": emailController.text.trim(),
+          "password": passwordController.text,
           "firstName": "Nguyen",
           "lastName": "MinhDuc",
         },
       );
-      var data = jsonDecode(response.body);
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 || response.statusCode == 201) {
         isLoading.value = false;
-        Get.snackbar("Signup Successfull", data["error"]);
         signinApi();
       } else {
         isLoading.value = false;
-        Get.snackbar("Signup Failed", data["error"]);
       }
-    } catch (e) {
+    } on DioException catch (e) {
       isLoading.value = false;
-      Get.snackbar("Exception", e.toString());
+      final ApiException apiException = ApiException.fromDioError(e);
+      Get.snackbar("Signup Failed", apiException.toString());
     }
   }
 }

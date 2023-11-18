@@ -42,11 +42,11 @@ class CategoryScreen extends StatelessWidget {
                         visible: controler.listSelected.isNotEmpty,
                         child: GestureDetector(
                           onTap: () {
-                            Get.offAllNamed(Routes.HOME);
+                            Get.offAllNamed(Routes.home);
                           },
                           child: Text(
                             "Done",
-                            style: UITextStyle.white_14_w400,
+                            style: UITextStyle.white14w400,
                           ),
                         ),
                       ),
@@ -56,12 +56,12 @@ class CategoryScreen extends StatelessWidget {
                 const SizedBox(height: 118),
                 Text(
                   "Wellcome to Flutter Test",
-                  style: UITextStyle.white_22_w400,
+                  style: UITextStyle.white22w400,
                 ),
                 const SizedBox(height: 11),
                 Text(
                   "Please select categories what you would like to see on your feed. You can set this later on Filter.",
-                  style: UITextStyle.white_14_w400.copyWith(color: UIColor.white.withOpacity(0.82)),
+                  style: UITextStyle.white14w400.copyWith(color: UIColor.white.withOpacity(0.82)),
                 ),
                 const SizedBox(height: 20),
                 Expanded(
