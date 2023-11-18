@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:main_app/app_exception.dart';
-import 'package:main_app/app_service.dart';
+import 'package:main_app/service/api_exception.dart';
+import 'package:main_app/service/api_service.dart';
 import 'package:main_app/enum/enum_password.dart';
 import 'package:main_app/routers/app_pages.dart';
 import 'package:main_app/storage/local_storage.dart';

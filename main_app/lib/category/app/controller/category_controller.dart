@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
-import 'package:main_app/app_service.dart';
+import 'package:main_app/service/api_service.dart';
 import 'package:main_app/category/domain/model/category_model.dart';
 import 'package:main_app/storage/local_storage.dart';
 
