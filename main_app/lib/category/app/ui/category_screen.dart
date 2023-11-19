@@ -7,9 +7,14 @@ import 'package:main_app/themes/ui_color.dart';
 import 'package:main_app/themes/ui_text_style.dart';
 import 'package:main_app/widget/list_item_category.dart';
 
-class CategoryScreen extends StatelessWidget {
+class CategoryScreen extends StatefulWidget {
   const CategoryScreen({super.key});
 
+  @override
+  State<CategoryScreen> createState() => _CategoryScreenState();
+}
+
+class _CategoryScreenState extends State<CategoryScreen> {
   @override
   Widget build(BuildContext context) {
     final categoryController = Get.find<CategoryControler>();
