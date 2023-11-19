@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:main_app/routers/app_pages.dart';
@@ -35,14 +36,17 @@ class MyApp extends StatelessWidget {
         systemNavigationBarIconBrightness: Brightness.dark,
       ),
     );
-    return GetMaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.green,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+    return ScreenUtilInit(
+      designSize: const Size(375, 812),
+      builder: (context, child) => GetMaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.green,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        initialRoute: initialRoute,
+        getPages: AppPages.pages,
       ),
-      initialRoute: initialRoute,
-      getPages: AppPages.pages,
     );
   }
 }

@@ -278,6 +278,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.3"
+  flutter_screenutil:
+    dependency: "direct main"
+    description:
+      name: flutter_screenutil
+      sha256: "8cf100b8e4973dc570b6415a2090b0bfaa8756ad333db46939efc3e774ee100d"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.9.0"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -304,6 +312,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.6.6"
+  get_it:
+    dependency: "direct main"
+    description:
+      name: get_it
+      sha256: f79870884de16d689cf9a7d15eedf31ed61d750e813c538a6efb92660fea83c3
+      url: "https://pub.dev"
+    source: hosted
+    version: "7.6.4"
   glob:
     dependency: transitive
     description:
@@ -352,6 +368,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.2"
+  injectable:
+    dependency: "direct main"
+    description:
+      name: injectable
+      sha256: cd3c422e13270c81f64ab73c80406b2b2ed563fe59d0ff2093eb7eee63d0bbeb
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.3.2"
+  injectable_generator:
+    dependency: "direct dev"
+    description:
+      name: injectable_generator
+      sha256: f9d3c05f0938403f79ad6c6d23ec8e37a7a05ad980b1bf9399493f3e41845788
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.4.1"
   io:
     dependency: transitive
     description:
@@ -560,6 +592,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.3"
+  recase:
+    dependency: transitive
+    description:
+      name: recase
+      sha256: e4eb4ec2dcdee52dcf99cb4ceabaffc631d7424ee55e56f280bc039737f89213
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.1.0"
   shared_preferences:
     dependency: "direct main"
     description:

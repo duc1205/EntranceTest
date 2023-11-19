@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:main_app/category/app/controller/category_controller.dart';
 import 'package:main_app/gen/assets.gen.dart';
@@ -23,12 +24,18 @@ class _CategoryScreenState extends State<CategoryScreen> {
         children: [
           Stack(
             children: [
-              Assets.resources.images.backgroundCategory.image(),
-              Assets.resources.images.backgroundPage.image(),
+              SizedBox(
+                width: double.maxFinite,
+                child: Assets.resources.images.backgroundCategory.image(fit: BoxFit.fill),
+              ),
+              SizedBox(
+                width: double.maxFinite,
+                child: Assets.resources.images.backgroundPage.image(fit: BoxFit.fill),
+              ),
             ],
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 16, top: 60, right: 16),
+            padding: EdgeInsets.only(left: 16.w, top: 60.h, right: 16.w),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -58,17 +65,17 @@ class _CategoryScreenState extends State<CategoryScreen> {
                     )
                   ],
                 ),
-                const SizedBox(height: 118),
+                SizedBox(height: 118.h),
                 Text(
                   "Wellcome to Flutter Test",
                   style: UITextStyle.white22w400,
                 ),
-                const SizedBox(height: 11),
+                SizedBox(height: 11.h),
                 Text(
                   "Please select categories what you would like to see on your feed. You can set this later on Filter.",
                   style: UITextStyle.white14w400.copyWith(color: UIColor.white.withOpacity(0.82)),
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: 20.h),
                 Expanded(
                   child: Obx(
                     () => ListItemCategory(
@@ -77,7 +84,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: 20.h),
               ],
             ),
           ),

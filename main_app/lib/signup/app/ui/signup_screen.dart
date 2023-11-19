@@ -1,7 +1,9 @@
 import 'package:easy_rich_text/easy_rich_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:main_app/gen/assets.gen.dart';
+import 'package:main_app/injector.dart';
 import 'package:main_app/signup/app/controller/signup_controller.dart';
 import 'package:main_app/themes/ui_color.dart';
 import 'package:main_app/themes/ui_text_style.dart';
@@ -30,12 +32,18 @@ class _SignupScreenState extends State<SignupScreen> {
             children: [
               Stack(
                 children: [
-                  Assets.resources.images.backgroundImage.image(),
-                  Assets.resources.images.backgroundPage.image(),
+                  SizedBox(
+                    width: double.maxFinite,
+                    child: Assets.resources.images.backgroundCategory.image(fit: BoxFit.fill),
+                  ),
+                  SizedBox(
+                    width: double.maxFinite,
+                    child:  Assets.resources.images.backgroundPage.image(fit: BoxFit.fill),
+                  ),
                 ],
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 24, top: 60, right: 24),
+                padding: EdgeInsets.only(left: 24.w, top: 60.h, right: 24.w),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -43,12 +51,12 @@ class _SignupScreenState extends State<SignupScreen> {
                       Icons.arrow_back_ios_new,
                       color: Colors.white,
                     ),
-                    SizedBox(height: myFocusNode.hasFocus ? 255 : 190),
+                    SizedBox(height: myFocusNode.hasFocus ? 255.h : 190.h),
                     Text(
                       "Let's get you started!",
                       style: UITextStyle.white22w400,
                     ),
-                    SizedBox(height: myFocusNode.hasFocus ? 75 : 40),
+                    SizedBox(height: myFocusNode.hasFocus ? 75.h : 40.h),
                     TextFormField(
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: (value) => signupController.validateEmail(value),
@@ -71,7 +79,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         ),
                       ),
                     ),
-                    SizedBox(height: myFocusNode.hasFocus ? 54 : 26),
+                    SizedBox(height: myFocusNode.hasFocus ? 54.h : 26.h),
                     Obx(
                       () => TextFormField(
                         onChanged: signupController.onChangePass,
@@ -116,30 +124,30 @@ class _SignupScreenState extends State<SignupScreen> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 40),
+                    SizedBox(height: 40.h),
                     Row(
                       children: [
                         SizedBox(
-                          width: 23,
-                          height: 23,
+                          width: 23.h,
+                          height: 23.h,
                           child: Obx(
                             () => Checkbox(
                               value: signupController.isCheckboxEnable,
                               checkColor: UIColor.white,
                               focusColor: UIColor.blue,
-                              side: const BorderSide(color: UIColor.blue1, width: 2),
+                              side: BorderSide(color: UIColor.blue1, width: 2.sp),
                               onChanged: signupController.onCheckbox,
                             ),
                           ),
                         ),
-                        const SizedBox(width: 8),
+                        SizedBox(width: 8.w),
                         Text(
                           "I am over 16 years of age",
                           style: UITextStyle.white14w400,
                         )
                       ],
                     ),
-                    const SizedBox(height: 30),
+                    SizedBox(height: 30.h),
                     EasyRichText(
                       "By clicking Sign Up, you are indicating that you have read and agree to the Terms of Service and Privacy Policy",
                       defaultStyle: UITextStyle.white12w500,
@@ -156,7 +164,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 30),
+                    SizedBox(height: 30.h),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -172,15 +180,15 @@ class _SignupScreenState extends State<SignupScreen> {
                             child: signupController.isLoading.value
                                 ? const CircularProgressIndicator()
                                 : Container(
-                                    width: 54,
-                                    height: 54,
+                                    width: 54.h,
+                                    height: 54.h,
                                     decoration: BoxDecoration(
                                       border: Border.all(
                                         color: UIColor.blue,
                                         width: 1,
                                       ),
-                                      borderRadius: const BorderRadius.all(
-                                        Radius.circular(54),
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(54.r),
                                       ),
                                     ),
                                     child: const Icon(
